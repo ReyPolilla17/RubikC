@@ -817,6 +817,7 @@ void mp(int cube[][3][3])
   return;
 }
 
+// rotates a medium layer of the cube
 void e(int cube[][3][3])
 {
   int level[3];
@@ -843,6 +844,7 @@ void ep(int cube[][3][3])
   return;
 }
 
+// rotates a medium layer of the cube
 void s(int cube[][3][3])
 {
   int level[3];
