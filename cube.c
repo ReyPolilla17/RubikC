@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /* Colors:
@@ -40,14 +41,16 @@ White: \x1b[47m
 // printing the cube
 void color(int value);
 void printC(int arr[][3][3]);
+void printM(int *size);
+void addM(int *size, char a[]);
 
 // rotating a face
 void rot(int cube[][3][3], int layer);
 void rot_p(int cube[][3][3], int layer);
 
 // complete actions
-void mix(int cube[][3][3]);
-void solve(int cube[][3][3]);
+void mix(int cube[][3][3], int *size);
+void solve(int cube[][3][3], int *size);
 
 // up
 void U(int cube[][3][3]);
@@ -109,10 +112,18 @@ int main(void)
   // action is a string of 2 chars to make it possible to use the '
   char a[2];
 
+  int i = 0;
+
+  FILE *movesFile;
+
+  movesFile = fopen("moves.txt", "w");
+  fclose(movesFile);
+
   // Q will be the stopper
   while(a[0] != 'Q')
   {
     // every action will clear the terminal and print the resulting cube
+    printM(&i);
     printC(cube);
     printf("Choose an action: ");
     scanf("%[^\n]", a);
@@ -128,10 +139,12 @@ int main(void)
         if(a[1] == '\0')
         {
           U(cube);
+          addM(&i, "U");
         }
         else if(a[1] == '\'')
         {
           Up(cube);
+          addM(&i, "U'");
         }
         break;
       }
@@ -140,10 +153,12 @@ int main(void)
         if(a[1] == '\0')
         {
           u(cube);
+          addM(&i, "u");
         }
         else if(a[1] == '\'')
         {
           up(cube);
+          addM(&i, "u'");
         }
         break;
       }
@@ -152,10 +167,12 @@ int main(void)
         if(a[1] == '\0')
         {
           D(cube);
+          addM(&i, "D");
         }
         else if(a[1] == '\'')
         {
           Dp(cube);
+          addM(&i, "D'");
         }
         break;
       }
@@ -164,10 +181,12 @@ int main(void)
         if(a[1] == '\0')
         {
           d(cube);
+          addM(&i, "d");
         }
         else if(a[1] == '\'')
         {
           dp(cube);
+          addM(&i, "d'");
         }
         break;
       }
@@ -176,10 +195,12 @@ int main(void)
         if(a[1] == '\0')
         {
           R(cube);
+          addM(&i, "R");
         }
         else if(a[1] == '\'')
         {
           Rp(cube);
+          addM(&i, "R'");
         }
         break;
       }
@@ -188,10 +209,12 @@ int main(void)
         if(a[1] == '\0')
         {
           r(cube);
+          addM(&i, "r");
         }
         else if(a[1] == '\'')
         {
           rp(cube);
+          addM(&i, "r'");
         }
         break;
       }
@@ -200,10 +223,12 @@ int main(void)
         if(a[1] == '\0')
         {
           L(cube);
+          addM(&i, "L");
         }
         else if(a[1] == '\'')
         {
           Lp(cube);
+          addM(&i, "L'");
         }
         break;
       }
@@ -212,10 +237,12 @@ int main(void)
         if(a[1] == '\0')
         {
           l(cube);
+          addM(&i, "l");
         }
         else if(a[1] == '\'')
         {
           lp(cube);
+          addM(&i, "l'");
         }
         break;
       }
@@ -224,10 +251,12 @@ int main(void)
         if(a[1] == '\0')
         {
           F(cube);
+          addM(&i, "F");
         }
         else if(a[1] == '\'')
         {
           Fp(cube);
+          addM(&i, "F'");
         }
         break;
       }
@@ -236,10 +265,12 @@ int main(void)
         if(a[1] == '\0')
         {
           f(cube);
+          addM(&i, "f");
         }
         else if(a[1] == '\'')
         {
           fp(cube);
+          addM(&i, "f'");
         }
         break;
       }
@@ -248,10 +279,12 @@ int main(void)
         if(a[1] == '\0')
         {
           B(cube);
+          addM(&i, "B");
         }
         else if(a[1] == '\'')
         {
           Bp(cube);
+          addM(&i, "B'");
         }
         break;
       }
@@ -260,10 +293,12 @@ int main(void)
         if(a[1] == '\0')
         {
           b(cube);
+          addM(&i, "b");
         }
         else if(a[1] == '\'')
         {
           bp(cube);
+          addM(&i, "b'");
         }
         break;
       }
@@ -272,10 +307,12 @@ int main(void)
         if(a[1] == '\0')
         {
           m(cube);
+          addM(&i, "m");
         }
         else if(a[1] == '\'')
         {
           mp(cube);
+          addM(&i, "m'");
         }
         break;
       }
@@ -284,10 +321,12 @@ int main(void)
         if(a[1] == '\0')
         {
           e(cube);
+          addM(&i, "e");
         }
         else if(a[1] == '\'')
         {
           ep(cube);
+          addM(&i, "e'");
         }
         break;
       }
@@ -295,11 +334,11 @@ int main(void)
       {
         if(a[1] == '\0')
         {
-          mix(cube);
+          mix(cube, &i);
         }
         else if(a[1] == '\'')
         {
-          solve(cube);
+          solve(cube, &i);
         }
         break;
       }
@@ -308,10 +347,12 @@ int main(void)
         if(a[1] == '\0')
         {
           s(cube);
+          addM(&i, "s");
         }
         else if(a[1] == '\'')
         {
           sp(cube);
+          addM(&i, "s'");
         }
         break;
       }
@@ -320,10 +361,12 @@ int main(void)
         if(a[1] == '\0')
         {
           x(cube);
+          addM(&i, "x");
         }
         else if(a[1] == '\'')
         {
           xp(cube);
+          addM(&i, "x'");
         }
         break;
       }
@@ -332,10 +375,12 @@ int main(void)
         if(a[1] == '\0')
         {
           y(cube);
+          addM(&i, "y");
         }
         else if(a[1] == '\'')
         {
           yp(cube);
+          addM(&i, "y'");
         }
         break;
       }
@@ -344,10 +389,12 @@ int main(void)
         if(a[1] == '\0')
         {
           z(cube);
+          addM(&i, "z");
         }
         else if(a[1] == '\'')
         {
           zp(cube);
+          addM(&i, "z'");
         }
         break;
       }
@@ -455,10 +502,123 @@ void printC(int arr[][3][3])
     return;
 }
 
+void printM(int *size)
+{
+  char moves[*size * 2];
+
+  FILE *movesFile;
+
+  if(*size == 0)
+  {
+    return;
+  }
+
+  movesFile = fopen("moves.txt", "r");
+  fscanf(movesFile, "%[^\3]", moves);
+  fclose(movesFile);
+
+  printf("%s\n", moves);
+
+  return;
+}
+
+void addM(int *size, char a[])
+{
+  char moves[*size * 3];
+  char move[*size][3];
+
+  int i = 0;
+  int j = 0;
+  int k = 0;
+
+  FILE *movesFile;
+
+  movesFile = fopen("moves.txt", "a");
+  fprintf(movesFile, "%s ", a);
+  fclose(movesFile);
+
+  *size += 1;
+
+  movesFile = fopen("moves.txt", "r");
+  fscanf(movesFile, "%[^\3]", moves);
+  fclose(movesFile);
+
+  for(i = 0; moves[i] != 0; i++)
+  {
+    if(moves[i] != ' ')
+    {
+      move[j][k] = moves[i];
+      k++;
+    }
+    else
+    {
+      move[j][k] = '\0';
+      j++;
+      k = 0;
+    }
+  }
+
+  if(*size - 2 >= 0)
+  {
+    if(strcmp(move[*size - 1], move[*size - 2]) == 0)
+    {
+      move[*size - 2][0] = move[*size - 1][0];
+      move[*size - 2][1] = '2';
+      move[*size - 2][2] = '\0';
+      move[*size - 1][0] = '\0';
+      
+      *size -= 1;
+    }
+    else if(move[*size - 1][0] == move[*size - 2][0] && move[*size - 2][1] == '2')
+    {
+      if(move[*size - 1][1] == '\'')
+      {
+        move[*size - 2][0] = move[*size - 1][0];
+        move[*size - 2][1] = '\0';
+        move[*size - 1][0] = '\0';
+      }
+      else
+      {
+        move[*size - 2][0] = move[*size - 1][0];
+        move[*size - 2][1] = '\'';
+        move[*size - 1][0] = '\0';
+      }
+      
+      *size -= 1;
+    }
+    else if(move[*size - 1][0] == move[*size - 2][0] && ((move[*size - 2][1] == '\'' && move[*size - 1][1] == '\0') || (move[*size - 2][1] == '\0' && move[*size - 1][1] == '\'')))
+    {
+      move[*size - 2][0] = '\0';
+      move[*size - 1][0] = '\0';
+      
+      *size -= 2;
+    }
+  }
+
+  movesFile = fopen("moves.txt", "w");
+
+  for(i = 0; i < *size; i++)
+  {
+    if(strlen(move[i]) != 0)
+    {
+      fprintf(movesFile, "%s ", move[i]);
+    }
+  }
+  
+  fclose(movesFile);
+
+  return;
+}
+
 // changes all the colors to it's starting position
-void solve(int cube[][3][3])
+void solve(int cube[][3][3], int *size)
 {
   int i, j, k;
+
+  FILE *movesFile;
+
+  movesFile = fopen("moves.txt", "w");
+  fclose(movesFile);
 
   for(i = 0; i < 6; i++)
   {
@@ -471,251 +631,250 @@ void solve(int cube[][3][3])
     }
   }
 
+  *size = 0;
   return;
 }
 
 // generates 50 random numbers from 0 to 35 and takes every number as an action
 // it also prints every move that has been made to scramble the cube
-void mix(int cube[][3][3])
+void mix(int cube[][3][3], int *size)
 {
-  int combos[50];
+  int move = 0;
   int i = 0;
 
   srand(time(NULL));
 
-  for(i = 0; i < 50; i++)
+  for(i = 0; i <= 50; i++)
   {
-    combos[i] = rand() % 36;
+    move = rand() % 36;
 
-    switch(combos[i])
+    switch(move)
     {
       case 0:
       {
-        printf("U ");
         U(cube);
+        addM(size, "U");
         break;
       }
       case 1:
       {
-        printf("U' ");
         Up(cube);
+        addM(size, "U'");
         break;
       }
       case 2:
       {
-        printf("u ");
         u(cube);
+        addM(size, "u");
         break;
       }
       case 3:
       {
-        printf("u' ");
         up(cube);
+        addM(size, "u'");
         break;
       }
 
       case 4:
       {
-        printf("D ");
         D(cube);
+        addM(size, "D");
         break;
       }
       case 5:
       {
-        printf("D' ");
         Dp(cube);
+        addM(size, "D'");
         break;
       }
       case 6:
       {
-        printf("d ");
         d(cube);
+        addM(size, "d");
         break;
       }
       case 7:
       {
-        printf("d' ");
         dp(cube);
+        addM(size, "d'");
         break;
       }
 
       case 8:
       {
-        printf("F ");
         F(cube);
+        addM(size, "F");
         break;
       }
       case 9:
       {
-        printf("F' ");
         Fp(cube);
+        addM(size, "F'");
         break;
       }
       case 10:
       {
-        printf("f ");
         f(cube);
+        addM(size, "f");
         break;
       }
       case 11:
       {
-        printf("f' ");
         fp(cube);
+        addM(size, "f'");
         break;
       }
 
       case 12:
       {
-        printf("B ");
         B(cube);
+        addM(size, "B");
         break;
       }
       case 13:
       {
-        printf("B' ");
         Bp(cube);
+        addM(size, "B'");
         break;
       }
       case 14:
       {
-        printf("b ");
         b(cube);
+        addM(size, "b");
         break;
       }
       case 15:
       {
-        printf("b' ");
         bp(cube);
+        addM(size, "b'");
         break;
       }
 
       case 16:
       {
-        printf("L ");
         L(cube);
+        addM(size, "L");
         break;
       }
       case 17:
       {
-        printf("L' ");
         Lp(cube);
+        addM(size, "L'");
         break;
       }
       case 18:
       {
-        printf("l ");
         l(cube);
+        addM(size, "l");
         break;
       }
       case 19:
       {
-        printf("l' ");
         lp(cube);
+        addM(size, "l'");
         break;
       }
 
       case 20:
       {
-        printf("R ");
         R(cube);
+        addM(size, "R");
         break;
       }
       case 21:
       {
-        printf("R' ");
         Rp(cube);
+        addM(size, "R'");
         break;
       }
       case 22:
       {
-        printf("r ");
         r(cube);
+        addM(size, "r");
         break;
       }
       case 23:
       {
-        printf("r' ");
         rp(cube);
+        addM(size, "r'");
         break;
       }
 
       case 24:
       {
-        printf("m ");
         m(cube);
+        addM(size, "m");
         break;
       }
       case 25:
       {
-        printf("m' ");
         mp(cube);
+        addM(size, "m'");
         break;
       }
       case 26:
       {
-        printf("e ");
         e(cube);
+        addM(size, "e");
         break;
       }
       case 27:
       {
-        printf("e' ");
         ep(cube);
+        addM(size, "e'");
         break;
       }
       case 28:
       {
-        printf("s ");
         s(cube);
+        addM(size, "s");
         break;
       }
       case 29:
       {
-        printf("s' ");
         sp(cube);
+        addM(size, "s'");
         break;
       }
 
       case 30:
       {
-        printf("x ");
         x(cube);
+        addM(size, "x");
         break;
       }
       case 31:
       {
-        printf("x' ");
         xp(cube);
+        addM(size, "x'");
         break;
       }
       case 32:
       {
-        printf("y ");
         y(cube);
+        addM(size, "y");
         break;
       }
       case 33:
       {
-        printf("y' ");
         yp(cube);
+        addM(size, "y'");
         break;
       }
       case 34:
       {
-        printf("z ");
         z(cube);
+        addM(size, "z");
         break;
       }
       case 35:
       {
-        printf("z' ");
         zp(cube);
+        addM(size, "z'");
         break;
       }
     }
   }
-
-  printf("\n");
 
   return;
 }
