@@ -112,8 +112,10 @@ int main(void)
   // action is a string of 2 chars to make it possible to use the '
   char a[2];
 
+  // movements that have been made
   int i = 0;
 
+  // a file to store the movements
   FILE *movesFile;
 
   movesFile = fopen("moves.txt", "w");
@@ -132,6 +134,7 @@ int main(void)
 
     // every letter makes the action of the cube notation (U = up, D = down, etc)
     // S will mix the cube and S' will solve it
+    // addM is to add the movement that has been made to the file
     switch(a[0])
     {
       case 'U':
@@ -502,9 +505,11 @@ void printC(int arr[][3][3])
     return;
 }
 
+// prints all the movements that have been made
 void printM(int *size)
 {
-  char moves[*size * 2];
+  // The size of the array is always the amount of movements made by 3, so the lenght of the file always fits on the array
+  char moves[*size * 3];
 
   FILE *movesFile;
 
@@ -522,34 +527,44 @@ void printM(int *size)
   return;
 }
 
+// adds an instruction to the file
 void addM(int *size, char a[])
 {
+  // moves is the rougth file and move is every instruction separated stored in arrays
   char moves[*size * 3];
   char move[*size][3];
 
+  // counters
   int i = 0;
   int j = 0;
   int k = 0;
 
+  // the file
   FILE *movesFile;
 
   movesFile = fopen("moves.txt", "a");
   fprintf(movesFile, "%s ", a);
   fclose(movesFile);
 
+  // adds 1 to size
   *size += 1;
 
+  // reads the file
   movesFile = fopen("moves.txt", "r");
   fscanf(movesFile, "%[^\3]", moves);
   fclose(movesFile);
 
+  // splits the file by spaces 
+  // move = moves.split(' ')
   for(i = 0; moves[i] != 0; i++)
   {
+    // copies the char if it is not a space
     if(moves[i] != ' ')
     {
       move[j][k] = moves[i];
       k++;
     }
+    // jumps to the next array when it detects a space
     else
     {
       move[j][k] = '\0';
@@ -558,8 +573,11 @@ void addM(int *size, char a[])
     }
   }
 
+  // if it exists more than one element
   if(*size - 2 >= 0)
   {
+    // this compacts the instructions:
+    // u u will become u2
     if(strcmp(move[*size - 1], move[*size - 2]) == 0)
     {
       move[*size - 2][0] = move[*size - 1][0];
@@ -567,16 +585,19 @@ void addM(int *size, char a[])
       move[*size - 2][2] = '\0';
       move[*size - 1][0] = '\0';
       
+      // since 2 instructions become 1, the amount of instructions decrease by 1
       *size -= 1;
     }
     else if(move[*size - 1][0] == move[*size - 2][0] && move[*size - 2][1] == '2')
     {
+      // u2 u' becomes u
       if(move[*size - 1][1] == '\'')
       {
         move[*size - 2][0] = move[*size - 1][0];
         move[*size - 2][1] = '\0';
         move[*size - 1][0] = '\0';
       }
+      // u2 u becomes u'
       else
       {
         move[*size - 2][0] = move[*size - 1][0];
@@ -586,21 +607,27 @@ void addM(int *size, char a[])
       
       *size -= 1;
     }
+    // u u' will delete each other
     else if(move[*size - 1][0] == move[*size - 2][0] && ((move[*size - 2][1] == '\'' && move[*size - 1][1] == '\0') || (move[*size - 2][1] == '\0' && move[*size - 1][1] == '\'')))
     {
       move[*size - 2][0] = '\0';
       move[*size - 1][0] = '\0';
       
+      // since 2 instructions are removes, the amount of instructions decrease by 2
       *size -= 2;
     }
   }
 
+  // overwrites the file with the new set of instructions
   movesFile = fopen("moves.txt", "w");
 
+  // all the strings in move
   for(i = 0; i < *size; i++)
   {
+    // if the array length is not 0 (if the array contains an instruction)
     if(strlen(move[i]) != 0)
     {
+      // prins the instruction in the file
       fprintf(movesFile, "%s ", move[i]);
     }
   }
