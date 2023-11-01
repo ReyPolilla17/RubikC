@@ -1,8 +1,8 @@
-cube.out: cubo.o miscs.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
-	gcc -o cube.out cubo.o miscs.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
+cube.out: cube.o miscs.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
+	gcc -o cube.out cube.o miscs.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
 
-cubo.o: cubo.c
-	gcc -c cubo.c
+cubo.o: cube.c
+	gcc -c cube.c
 
 miscs.o: miscs.c
 	gcc -c miscs.c

@@ -8,10 +8,11 @@
 // in some cases, ending the program results in a stack smashing detection
 
 /* Colors:
+
 Text decoration:
 Reset: \x1b[0m
 Bold: \x1b[1m
-Faint: \x1b[2mmpuuse
+Faint: \x1b[2m
 Italic: \x1b[3m
 Underline: \x1b[4m
 Blink: \x1b[5m
