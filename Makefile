@@ -26,3 +26,8 @@ clear:
 	rm *.o
 	rm *.out
 	rm *.txt
+
+push:
+	git add .
+	git commit -m "${m}"
+	git push origin main
