@@ -19,3 +19,9 @@ On every .c file there are stored different kinds of functions to make it easier
 > [cube.h](./cube.h) Is a local library to link every .c file to the main file.
 > 
 > [Makefile](./Makefile) Compiles and chains every file into the executable.
+
+## Scripts
+This scripts are included in [Makefile](./Makefile)
+- **make** - Compiles the full project and chains it into a .out executable.
+- **make clear** - Removes .o, .out and .txt files from the directory.
+- **make push m="[arg]"** - Creates a commit and pushes it into Github.
