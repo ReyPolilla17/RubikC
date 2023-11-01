@@ -6,6 +6,7 @@
 #include "cube.h"
 
 // Problems: In some cases, ending the program results in a stack smashing detection
+// make push m=[argument]
 
 /* Colors:
 
