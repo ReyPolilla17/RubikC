@@ -19,7 +19,7 @@ Text decoration:        Text color:             Background color:
   Blink: \x1b[5m          Magenta: \x1b[35m       Magenta: \x1b[45m
   Inverse: \x1b[7m        Cyan: \x1b[36m          Cyan: \x1b[46m
   Hidden: \x1b[8m         White: \x1b[37m         White: \x1b[47m
-  Strikeout: \x1b[9m
+  Strikeout: \x1b[9
 */
 
 int main(void)
