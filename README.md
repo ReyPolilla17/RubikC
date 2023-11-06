@@ -25,3 +25,6 @@ This scripts are included in [Makefile](./Makefile)
 - ``make`` - Compiles the full project and chains it into a .out executable.
 - ``make clear`` - Removes .o, .out and .txt files from the directory.
 - ``make push m="[arg]"`` - Creates a commit and pushes it into Github.
+
+## Notations
+https://jperm.net/images/notation.png
