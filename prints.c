@@ -1,46 +1,51 @@
 #include "cube.h"
 // used for the printing of the cube, I use # because it's easier to undestand
-void color(int value)
+void color(int value, char rep[], int m)
 {
+  char res[17];
+
   switch(value)
   {
     // red
     case 2:
     {
-      printf("\x1b[31m#\x1b[0m");
+      sprintf(res, "\x1b[%d1m%s\x1b[0m", m, rep);
       break;
     }
     // blue
     case 3:
     {
-      printf("\x1b[1m\x1b[34m#\x1b[0m");
+      sprintf(res, "\x1b[%d4m%s\x1b[0m", m, rep);
       break;
     }
     // magenta
     case 4:
     {
-      printf("\x1b[1m\x1b[35m#\x1b[0m");
+      sprintf(res, "\x1b[%d5m%s\x1b[0m", m, rep);
       break;
     }
     // Green
     case 5:
     {
-      printf("\x1b[1m\x1b[32m#\x1b[0m");
+      sprintf(res, "\x1b[%d2m%s\x1b[0m", m, rep);
       break;
     }
     // Yellow
     case 6:
     {
-      printf("\x1b[1m\x1b[33m#\x1b[0m");
+      sprintf(res, "\x1b[%d3m%s\x1b[0m", m, rep);
       break;
     }
     // white
     default:
     {
-      printf("\x1b[1m#\x1b[0m");
+      sprintf(res, "\x1b[%d7m%s\x1b[0m", m, rep);
       break;
     }
   }
+
+  printf("%s", res);
+  
   return;
 }
 
@@ -56,7 +61,7 @@ void printC(int arr[][3][3])
   {
     for(j = 0; j < 3; j++)
     {
-      color(arr[0][i][j]);
+      color(arr[0][i][j], "#", 3);
     }
     printf("\n");
   }
@@ -68,7 +73,7 @@ void printC(int arr[][3][3])
     {
       for(k = 0; k < 3; k++)
       {
-        color(arr[j][i][k]);
+        color(arr[j][i][k], "#", 3);
       }
       printf(" ");
     }
@@ -80,7 +85,7 @@ void printC(int arr[][3][3])
   {
     for(j = 0; j < 3; j++)
     {
-      color(arr[5][i][j]);
+      color(arr[5][i][j], "#", 3);
     }
     printf("\n");
   }
