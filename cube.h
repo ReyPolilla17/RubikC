@@ -8,6 +8,7 @@
 // printing the cube
 void color(int value, char rep[], int m);
 void printC(int arr[][3][3]);
+void print3D(int cube[][3][3]);
 void printM(int *size);
 void addM(int *size, char a[]);
 

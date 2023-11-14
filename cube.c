@@ -34,6 +34,8 @@ int main(void)
   // movements that have been made
   int i = 0;
 
+  int p = 1;
+
   // a file to store the movements
   FILE *movesFile;
 
@@ -45,7 +47,16 @@ int main(void)
   {
     // every action will clear the terminal and print the resulting cube
     printM(&i);
-    printC(cube);
+
+    if(p > 0)
+    {
+      print3D(cube);
+    }
+    else
+    {
+      printC(cube);
+    }
+
     printf("Choose an action: ");
     scanf("%[^\n]", a);
     system("clear");
@@ -319,6 +330,16 @@ int main(void)
           addM(&i, "z'");
         }
         break;
+      }
+      case 'P':
+      case 'p':
+      {
+        p *= -1;
+        break;
+      }
+      case 'q':
+      {
+        a[0] = 'Q';
       }
       case 'Q':
       {

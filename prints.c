@@ -2,49 +2,45 @@
 // used for the printing of the cube, I use # because it's easier to undestand
 void color(int value, char rep[], int m)
 {
-  char res[17];
-
   switch(value)
   {
     // red
     case 2:
     {
-      sprintf(res, "\x1b[%d1m%s\x1b[0m", m, rep);
+      printf("\x1b[%d1m%s\x1b[0m", m, rep);
       break;
     }
     // blue
     case 3:
     {
-      sprintf(res, "\x1b[%d4m%s\x1b[0m", m, rep);
+      printf("\x1b[%d4m%s\x1b[0m", m, rep);
       break;
     }
     // magenta
     case 4:
     {
-      sprintf(res, "\x1b[%d5m%s\x1b[0m", m, rep);
+      printf("\x1b[%d5m%s\x1b[0m", m, rep);
       break;
     }
     // Green
     case 5:
     {
-      sprintf(res, "\x1b[%d2m%s\x1b[0m", m, rep);
+      printf("\x1b[%d2m%s\x1b[0m", m, rep);
       break;
     }
     // Yellow
     case 6:
     {
-      sprintf(res, "\x1b[%d3m%s\x1b[0m", m, rep);
+      printf("\x1b[%d3m%s\x1b[0m", m, rep);
       break;
     }
     // white
     default:
     {
-      sprintf(res, "\x1b[%d7m%s\x1b[0m", m, rep);
+      printf("\x1b[%d7m%s\x1b[0m", m, rep);
       break;
     }
   }
-
-  printf("%s", res);
   
   return;
 }
@@ -91,6 +87,100 @@ void printC(int arr[][3][3])
   }
 
     return;
+}
+
+// printing in 3d the cube, really complex because why not?
+void print3D(int cube[][3][3])
+{
+  char desp[5] = "     ";
+
+  int i = 0;
+  int j = 0;
+  int k = 0;
+
+  int a = 4;
+
+  for(i = 0; i < 3; i++)
+  {
+    for(k = 0; k < 2; k++, a--)
+    {
+      printf("%s%s", desp, desp);
+
+      for(j = 0; j < 3; j++)
+      {
+        if(j)
+        {
+          printf("  ");
+        }
+
+        color(cube[0][i][j], "      ", 4);
+      }
+
+      for(j = 0; j <= 4 - a && j < 4; j++)
+      {
+        color(cube[2][0][2-((4-a-j)/2)], "  ", 4);
+      }
+
+      if(4-a == 5)
+      {
+        printf("  ");
+        color(cube[2][1][2], "  ", 4);
+      }
+
+      desp[a] = 0;
+      printf("\n");
+    }
+  }
+
+  for(i = 0; i < 3; i++)
+  {
+    for(k = 0, a = 3; k < 3; k++, a--)
+    {
+      for(j = 0; j < 3; j++)
+      {
+        if(j)
+        {
+          printf("  ");
+        }
+
+        color(cube[1][i][j], "      ", 4);
+      }
+
+      for(j = 0; j < a; j++)
+      {
+        color(cube[2][i][j/2], "  ", 4);
+      }
+
+      printf("  ");
+
+      for(j = 0; j < 3 && j <= 4 - a && i != 2; j++)
+      {
+        color(cube[2][i + 1][((((j+1)*a)/3)+3)/2], "  ", 4);
+      }
+
+      printf("\n");
+    }
+
+    if(i != 2)
+    {
+      printf("                        ");
+
+      for(k = 0; k < 3; k++)
+      {
+        color(cube[2][i+1][(k+1)/2], "  ", 4);
+      }
+
+      if(i != 1)
+      {
+        printf("  ");
+        color(cube[2][i+2][2], "  ", 4);
+      }
+    }
+
+    printf("\n");
+  }
+
+  return;
 }
 
 // prints all the movements that have been made
