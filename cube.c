@@ -34,6 +34,7 @@ int main(void)
   // movements that have been made
   int i = 0;
 
+  // perspective display
   int p = 1;
 
   // a file to store the movements
@@ -48,6 +49,7 @@ int main(void)
     // every action will clear the terminal and print the resulting cube
     printM(&i);
 
+    // default perspective is 3d
     if(p > 0)
     {
       print3D(cube);

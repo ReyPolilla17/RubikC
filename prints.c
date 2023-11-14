@@ -92,20 +92,25 @@ void printC(int arr[][3][3])
 // printing in 3d the cube, really complex because why not?
 void print3D(int cube[][3][3])
 {
-  char desp[5] = "     ";
+  // the amount of space before printing the upper face
+  char mov[5] = "     ";
 
+  // counters
   int i = 0;
   int j = 0;
   int k = 0;
 
   int a = 4;
 
+  // print the upper layer along with the rigth top part
   for(i = 0; i < 3; i++)
   {
     for(k = 0; k < 2; k++, a--)
     {
-      printf("%s%s", desp, desp);
+      // spaces before printing
+      printf("%s%s", mov, mov);
 
+      // prints the color of the piece
       for(j = 0; j < 3; j++)
       {
         if(j)
@@ -116,26 +121,29 @@ void print3D(int cube[][3][3])
         color(cube[0][i][j], "      ", 4);
       }
 
+      // prints the rigth top part
       for(j = 0; j <= 4 - a && j < 4; j++)
       {
-        color(cube[2][0][2-((4-a-j)/2)], "  ", 4);
+        color(cube[2][0][2 - ((4 - a - j) / 2)], "  ", 4);
       }
 
-      if(4-a == 5)
+      if(4 - a == 5)
       {
         printf("  ");
         color(cube[2][1][2], "  ", 4);
       }
 
-      desp[a] = 0;
+      mov[a] = 0;
       printf("\n");
     }
   }
 
+  // printfs the front face along with the right face
   for(i = 0; i < 3; i++)
   {
     for(k = 0, a = 3; k < 3; k++, a--)
     {
+      // printfs the color of the piece
       for(j = 0; j < 3; j++)
       {
         if(j)
@@ -146,34 +154,36 @@ void print3D(int cube[][3][3])
         color(cube[1][i][j], "      ", 4);
       }
 
+      // prints right face
       for(j = 0; j < a; j++)
       {
-        color(cube[2][i][j/2], "  ", 4);
+        color(cube[2][i][j / 2], "  ", 4);
       }
 
       printf("  ");
 
       for(j = 0; j < 3 && j <= 4 - a && i != 2; j++)
       {
-        color(cube[2][i + 1][((((j+1)*a)/3)+3)/2], "  ", 4);
+        color(cube[2][i + 1][((((j + 1) * a) / 3) + 3) / 2], "  ", 4);
       }
 
       printf("\n");
     }
 
+    // for empty spaces
     if(i != 2)
     {
       printf("                        ");
 
       for(k = 0; k < 3; k++)
       {
-        color(cube[2][i+1][(k+1)/2], "  ", 4);
+        color(cube[2][i + 1][(k + 1) / 2], "  ", 4);
       }
 
       if(i != 1)
       {
         printf("  ");
-        color(cube[2][i+2][2], "  ", 4);
+        color(cube[2][i + 2][2], "  ", 4);
       }
     }
 
