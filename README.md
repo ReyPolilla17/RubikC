@@ -26,5 +26,9 @@ This scripts are included in [Makefile](./Makefile)
 - ``make clear`` - Removes .o, .out and .txt files from the directory.
 - ``make push m="[arg]"`` - Creates a commit and pushes it into Github.
 
+## To do:
+- **A timer:** - When you use de mixing command (S) a timer starts and when you solve the cube using the command (S') or by yourself, it displays the time it took you.
+- **Help command** - (H) to display all the commands aviable.
+
 ## Notations
 https://jperm.net/images/notation.png
