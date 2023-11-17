@@ -8,7 +8,7 @@
 - To finish the program use the Q command.
 
 ## Contents
-On every .c file there are stored different kinds of functions to make it easier to debug;
+On every .c file there are stored different kinds of functions to make it easier to debug:
 1. [miscs.c](./miscs.c) Includes the solving and mixing functions.
 2. [prints.c](./prints.c) Includes all the cube and algorithms printing functions.
 3. [r-blocks.c](./r-blocks.c) Includes the clockwhise movements that move more than one layer.
