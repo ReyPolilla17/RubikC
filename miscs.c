@@ -1,272 +1,56 @@
 #include "cube.h"
 
-// changes all the colors to it's starting position
-void solve(int cube[][3][3], int *size)
+int getIns(char *str)
 {
-  int i, j, k;
+  char *inst;
 
-  FILE *movesFile;
+  int len = 0;
 
-  movesFile = fopen("moves.txt", "w");
-  fclose(movesFile);
+  int rv = 0;
+  int i = 2;
 
-  for(i = 0; i < 6; i++)
+  while(str[i] != 0 && str[i] != ' ')
   {
-    for(j = 0; j < 3; j++)
-    {
-      for(k = 0; k < 3; k++)
-      {
-        cube[i][j][k] = i + 1;
-      }
-    }
+    i++;
   }
 
-  *size = 0;
-  return;
-}
+  len = i - 1;
 
-// generates 50 random numbers from 0 to 35 and takes every number as an action
-// it also prints every move that has been made to scramble the cube
-void mix(int cube[][3][3], int *size)
-{
-  int move = 0;
-  int i = 0;
+  inst = (char*)malloc(sizeof(char) * len);
 
-  srand(time(NULL));
-
-  for(i = 0; i <= 50; i++)
+  for(i = 0; i < len; i++)
   {
-    move = rand() % 36;
-
-    switch(move)
-    {
-      case 0:
-      {
-        U(cube);
-        addM(size, "U");
-        break;
-      }
-      case 1:
-      {
-        Up(cube);
-        addM(size, "U'");
-        break;
-      }
-      case 2:
-      {
-        u(cube);
-        addM(size, "u");
-        break;
-      }
-      case 3:
-      {
-        up(cube);
-        addM(size, "u'");
-        break;
-      }
-
-      case 4:
-      {
-        D(cube);
-        addM(size, "D");
-        break;
-      }
-      case 5:
-      {
-        Dp(cube);
-        addM(size, "D'");
-        break;
-      }
-      case 6:
-      {
-        d(cube);
-        addM(size, "d");
-        break;
-      }
-      case 7:
-      {
-        dp(cube);
-        addM(size, "d'");
-        break;
-      }
-
-      case 8:
-      {
-        F(cube);
-        addM(size, "F");
-        break;
-      }
-      case 9:
-      {
-        Fp(cube);
-        addM(size, "F'");
-        break;
-      }
-      case 10:
-      {
-        f(cube);
-        addM(size, "f");
-        break;
-      }
-      case 11:
-      {
-        fp(cube);
-        addM(size, "f'");
-        break;
-      }
-
-      case 12:
-      {
-        B(cube);
-        addM(size, "B");
-        break;
-      }
-      case 13:
-      {
-        Bp(cube);
-        addM(size, "B'");
-        break;
-      }
-      case 14:
-      {
-        b(cube);
-        addM(size, "b");
-        break;
-      }
-      case 15:
-      {
-        bp(cube);
-        addM(size, "b'");
-        break;
-      }
-
-      case 16:
-      {
-        L(cube);
-        addM(size, "L");
-        break;
-      }
-      case 17:
-      {
-        Lp(cube);
-        addM(size, "L'");
-        break;
-      }
-      case 18:
-      {
-        l(cube);
-        addM(size, "l");
-        break;
-      }
-      case 19:
-      {
-        lp(cube);
-        addM(size, "l'");
-        break;
-      }
-
-      case 20:
-      {
-        R(cube);
-        addM(size, "R");
-        break;
-      }
-      case 21:
-      {
-        Rp(cube);
-        addM(size, "R'");
-        break;
-      }
-      case 22:
-      {
-        r(cube);
-        addM(size, "r");
-        break;
-      }
-      case 23:
-      {
-        rp(cube);
-        addM(size, "r'");
-        break;
-      }
-
-      case 24:
-      {
-        m(cube);
-        addM(size, "m");
-        break;
-      }
-      case 25:
-      {
-        mp(cube);
-        addM(size, "m'");
-        break;
-      }
-      case 26:
-      {
-        e(cube);
-        addM(size, "e");
-        break;
-      }
-      case 27:
-      {
-        ep(cube);
-        addM(size, "e'");
-        break;
-      }
-      case 28:
-      {
-        s(cube);
-        addM(size, "s");
-        break;
-      }
-      case 29:
-      {
-        sp(cube);
-        addM(size, "s'");
-        break;
-      }
-
-      case 30:
-      {
-        x(cube);
-        addM(size, "x");
-        break;
-      }
-      case 31:
-      {
-        xp(cube);
-        addM(size, "x'");
-        break;
-      }
-      case 32:
-      {
-        y(cube);
-        addM(size, "y");
-        break;
-      }
-      case 33:
-      {
-        yp(cube);
-        addM(size, "y'");
-        break;
-      }
-      case 34:
-      {
-        z(cube);
-        addM(size, "z");
-        break;
-      }
-      case 35:
-      {
-        zp(cube);
-        addM(size, "z'");
-        break;
-      }
-    }
+    inst[i] = str[i + 2];
   }
 
-  return;
+  if(!strcmp(inst, "exit"))
+  {
+    rv = 1;
+  }
+  else if(!strcmp(inst, "help"))
+  {
+    rv = 2;
+  }
+  else if(!strcmp(inst, "mix"))
+  {
+    rv = 3;
+  }
+  else if(!strcmp(inst, "solve"))
+  {
+    rv = 4;
+  }
+  else if(!strcmp(inst, "solution"))
+  {
+    rv = 5;
+  }
+  else if(!strcmp(inst, "perspective"))
+  {
+    rv = 6;
+  }
+
+  free(inst);
+
+  return rv;
 }
 
 // rotates clockwise a face of the cube

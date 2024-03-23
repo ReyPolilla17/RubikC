@@ -1,359 +1,93 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <time.h>
 
 #include "cube.h"
 
-// Problems: In some cases, ending the program results in a stack smashing detection
-// make push m=[argument]
-
-/* Colors:
-
-Text decoration:        Text color:             Background color:
-
-  Reset: \x1b[0m          Black: \x1b[30m         Black: \x1b[40m
-  Bold: \x1b[1m           Red: \x1b[31m           Red: \x1b[41m
-  Faint: \x1b[2m          Green: \x1b[32m         Green: \x1b[42m
-  Italic: \x1b[3m         Yellow: \x1b[33m        Yellow: \x1b[43m
-  Underline: \x1b[4m      Blue: \x1b[34m          Blue: \x1b[44m
-  Blink: \x1b[5m          Magenta: \x1b[35m       Magenta: \x1b[45m
-  Inverse: \x1b[7m        Cyan: \x1b[36m          Cyan: \x1b[46m
-  Hidden: \x1b[8m         White: \x1b[37m         White: \x1b[47m
-  Strikeout: \x1b[9m
-*/
+void (*printCube[2])(int cube[][3][3]) = { printC, print3D };
 
 int main(void)
 {
-  // the cube works with numbers instead of colors
-  int cube[6][3][3] = {{{1,1,1},{1,1,1},{1,1,1}}, {{2,2,2},{2,2,2},{2,2,2}}, {{3,3,3},{3,3,3},{3,3,3}}, {{4,4,4},{4,4,4},{4,4,4}}, {{5,5,5},{5,5,5},{5,5,5}}, {{6,6,6},{6,6,6},{6,6,6}}};
+  Rubik_Cube cube;
 
-  // action is a string of 2 chars to make it possible to use the '
-  char a[2];
+  char inst[3];
 
-  // movements that have been made
-  int i = 0;
-
-  // perspective display
   int p = 1;
+  int r = 1;
 
-  // a file to store the movements
-  FILE *movesFile;
+  srand(time(NULL));
 
-  movesFile = fopen("moves.txt", "w");
-  fclose(movesFile);
+  system("clear");
+  initialize(&cube, 1);
 
-  // Q will be the stopper
-  while(a[0] != 'Q')
+  do
   {
-    // every action will clear the terminal and print the resulting cube
-    printM(&i);
+    (*printCube[p])(cube.matrix);
+    printM(&cube);
+    
+    readIns(&cube.str);
+    system("clear");
 
-    // default perspective is 3d
-    if(p > 0)
+    sprintf(inst, "%c%c", cube.str[0], cube.str[1]);
+
+    if(!strcmp(inst, "i:"))
     {
-      print3D(cube);
+      switch(getIns(cube.str))
+      {
+        case 1:
+        {
+          r = 0;
+          break;
+        }
+        case 2:
+        {
+          printf("help\n\n");
+          break;
+        }
+        case 3:
+        {
+          mix(&cube);
+          break;
+        }
+        case 4:
+        {
+          initialize(&cube, 0);
+          break;
+        }
+        case 5:
+        {
+          printf("solution\n\n");
+        }
+        case 6:
+        {
+          if(p)
+          {
+            p--;
+          }
+          else
+          {
+            p++;
+          }
+          break;
+        }
+        default:
+        {
+          printf("Unknown instruction, use 'i:help' to get help...\n\n");
+          break;
+        }
+      }
     }
     else
     {
-      printC(cube);
-    }
+      getPairs(&cube.str, &cube.par_start);
+      createSet(&cube, 1, 0, 1);
 
-    printf("Choose an action: ");
-    scanf("%[^\n]", a);
-    system("clear");
-    getchar();
-
-    // every letter makes the action of the cube notation (U = up, D = down, etc)
-    // S will mix the cube and S' will solve it
-    // addM is to add the movement that has been made to the file
-    switch(a[0])
-    {
-      case 'U':
-      {
-        if(a[1] == '\0')
-        {
-          U(cube);
-          addM(&i, "U");
-        }
-        else if(a[1] == '\'')
-        {
-          Up(cube);
-          addM(&i, "U'");
-        }
-        break;
-      }
-      case 'u':
-      {
-        if(a[1] == '\0')
-        {
-          u(cube);
-          addM(&i, "u");
-        }
-        else if(a[1] == '\'')
-        {
-          up(cube);
-          addM(&i, "u'");
-        }
-        break;
-      }
-      case 'D':
-      {
-        if(a[1] == '\0')
-        {
-          D(cube);
-          addM(&i, "D");
-        }
-        else if(a[1] == '\'')
-        {
-          Dp(cube);
-          addM(&i, "D'");
-        }
-        break;
-      }
-      case 'd':
-      {
-        if(a[1] == '\0')
-        {
-          d(cube);
-          addM(&i, "d");
-        }
-        else if(a[1] == '\'')
-        {
-          dp(cube);
-          addM(&i, "d'");
-        }
-        break;
-      }
-      case 'R':
-      {
-        if(a[1] == '\0')
-        {
-          R(cube);
-          addM(&i, "R");
-        }
-        else if(a[1] == '\'')
-        {
-          Rp(cube);
-          addM(&i, "R'");
-        }
-        break;
-      }
-      case 'r':
-      {
-        if(a[1] == '\0')
-        {
-          r(cube);
-          addM(&i, "r");
-        }
-        else if(a[1] == '\'')
-        {
-          rp(cube);
-          addM(&i, "r'");
-        }
-        break;
-      }
-      case 'L':
-      {
-        if(a[1] == '\0')
-        {
-          L(cube);
-          addM(&i, "L");
-        }
-        else if(a[1] == '\'')
-        {
-          Lp(cube);
-          addM(&i, "L'");
-        }
-        break;
-      }
-      case 'l':
-      {
-        if(a[1] == '\0')
-        {
-          l(cube);
-          addM(&i, "l");
-        }
-        else if(a[1] == '\'')
-        {
-          lp(cube);
-          addM(&i, "l'");
-        }
-        break;
-      }
-      case 'F':
-      {
-        if(a[1] == '\0')
-        {
-          F(cube);
-          addM(&i, "F");
-        }
-        else if(a[1] == '\'')
-        {
-          Fp(cube);
-          addM(&i, "F'");
-        }
-        break;
-      }
-      case 'f':
-      {
-        if(a[1] == '\0')
-        {
-          f(cube);
-          addM(&i, "f");
-        }
-        else if(a[1] == '\'')
-        {
-          fp(cube);
-          addM(&i, "f'");
-        }
-        break;
-      }
-      case 'B':
-      {
-        if(a[1] == '\0')
-        {
-          B(cube);
-          addM(&i, "B");
-        }
-        else if(a[1] == '\'')
-        {
-          Bp(cube);
-          addM(&i, "B'");
-        }
-        break;
-      }
-      case 'b':
-      {
-        if(a[1] == '\0')
-        {
-          b(cube);
-          addM(&i, "b");
-        }
-        else if(a[1] == '\'')
-        {
-          bp(cube);
-          addM(&i, "b'");
-        }
-        break;
-      }
-      case 'm':
-      {
-        if(a[1] == '\0')
-        {
-          m(cube);
-          addM(&i, "m");
-        }
-        else if(a[1] == '\'')
-        {
-          mp(cube);
-          addM(&i, "m'");
-        }
-        break;
-      }
-      case 'e':
-      {
-        if(a[1] == '\0')
-        {
-          e(cube);
-          addM(&i, "e");
-        }
-        else if(a[1] == '\'')
-        {
-          ep(cube);
-          addM(&i, "e'");
-        }
-        break;
-      }
-      case 'S':
-      {
-        if(a[1] == '\0')
-        {
-          mix(cube, &i);
-        }
-        else if(a[1] == '\'')
-        {
-          solve(cube, &i);
-        }
-        break;
-      }
-      case 's':
-      {
-        if(a[1] == '\0')
-        {
-          s(cube);
-          addM(&i, "s");
-        }
-        else if(a[1] == '\'')
-        {
-          sp(cube);
-          addM(&i, "s'");
-        }
-        break;
-      }
-      case 'x':
-      {
-        if(a[1] == '\0')
-        {
-          x(cube);
-          addM(&i, "x");
-        }
-        else if(a[1] == '\'')
-        {
-          xp(cube);
-          addM(&i, "x'");
-        }
-        break;
-      }
-      case 'y':
-      {
-        if(a[1] == '\0')
-        {
-          y(cube);
-          addM(&i, "y");
-        }
-        else if(a[1] == '\'')
-        {
-          yp(cube);
-          addM(&i, "y'");
-        }
-        break;
-      }
-      case 'z':
-      {
-        if(a[1] == '\0')
-        {
-          z(cube);
-          addM(&i, "z");
-        }
-        else if(a[1] == '\'')
-        {
-          zp(cube);
-          addM(&i, "z'");
-        }
-        break;
-      }
-      case 'P':
-      case 'p':
-      {
-        p *= -1;
-        break;
-      }
-      case 'q':
-      {
-        a[0] = 'Q';
-      }
-      case 'Q':
-      {
-        break;
-      }
-      default:
-      {
-        printf("Unknown action...\n");
-        break;
-      }
+      freeStruct((void **)&cube.par_start);
+      free(cube.str);
     }
-  }
+  } while(r);
+  
+  freeStruct((void **)&cube.inst_start);
 
   return 0;
 }
