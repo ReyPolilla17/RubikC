@@ -1,13 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "cube.h"
-
-void (*printCube[2])(int cube[][3][3]) = { printC, print3D };
 
 int main(void)
 {
+  void (*printCube[2])(int cube[][3][3]) = { printC, print3D };
+
   Rubik_Cube cube;
 
   char inst[3];
@@ -57,6 +53,7 @@ int main(void)
         case 5:
         {
           printf("solution\n\n");
+          break;
         }
         case 6:
         {
@@ -72,7 +69,7 @@ int main(void)
         }
         default:
         {
-          printf("Unknown instruction, use 'i:help' to get help...\n\n");
+          printf("Unknown instruction, use 'i:help' to see the aviable instructions...\n\n");
           break;
         }
       }
