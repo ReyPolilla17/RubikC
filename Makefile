@@ -1,11 +1,11 @@
-cube.out: cube.o miscs.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
-	gcc -o cube.out cube.o miscs.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
+cube.out: cube.o rotation.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
+	gcc -o cube.out cube.o rotation.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
 
 cubo.o: cube.c
 	gcc -c cube.c
 
-miscs.o: miscs.c
-	gcc -c miscs.c
+miscs.o: rotation.c
+	gcc -c rotation.c
 
 logic.o: logic.c
 	gcc -c logic.c

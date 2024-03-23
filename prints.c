@@ -154,7 +154,7 @@ void printM(Rubik_Cube *cube)
 
   if(solved(cube->matrix))
   {
-    freeStruct(&cube->inst_start);
+    freeStruct((void**)&cube->inst_start);
   }
 
   if(cube->inst_start != NULL)
@@ -173,6 +173,17 @@ void printM(Rubik_Cube *cube)
   {
     printf("Cube is solved!\n\n");
   }
+
+  return;
+}
+
+void printHelp(void)
+{
+  system("clear");
+  printf("Help\n");
+  printf("Press <enter> to return.\n");
+  getchar();
+  system("clear");
 
   return;
 }

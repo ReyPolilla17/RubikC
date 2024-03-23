@@ -2,10 +2,11 @@
 **This is a bidimentional representation of a Rubik's Cube:**
 
 - It obeys every cube notation.
-- It can get scrambled using the S command.
-- It can be solved using the S' command.
+- It can get scrambled using the i:mix command.
+- It can be solved using the i:solve command.
 - It registers every movement that has been made in the scramble and by the user.
-- To finish the program use the Q command.
+- To finish the program use the i:exit command.
+- Get a help message using the i:help command.
 
 ## Contents
 On every .c file there are stored different kinds of functions to make it easier to debug:

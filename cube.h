@@ -75,9 +75,10 @@ void mix(Rubik_Cube *cube);
 int solved(int cube[][3][3]);
 
 // printing the cube
-void printM(Instruction *start);
+void printM(Rubik_Cube *cube);
 void printC(int cube[][3][3]);
 void print3D(int cube[][3][3]);
+void printHelp(void);
 
 // rotating a face
 void rot(int cube[][3][3], int layer);

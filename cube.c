@@ -41,7 +41,7 @@ int main(void)
         }
         case 2:
         {
-          printf("help\n\n");
+          printHelp();
           break;
         }
         case 3:

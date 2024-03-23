@@ -1,58 +1,5 @@
 #include "cube.h"
 
-int getIns(char *str)
-{
-  char *inst;
-
-  int len = 0;
-
-  int rv = 0;
-  int i = 2;
-
-  while(str[i] != 0 && str[i] != ' ')
-  {
-    i++;
-  }
-
-  len = i - 1;
-
-  inst = (char*)malloc(sizeof(char) * len);
-
-  for(i = 0; i < len; i++)
-  {
-    inst[i] = str[i + 2];
-  }
-
-  if(!strcmp(inst, "exit"))
-  {
-    rv = 1;
-  }
-  else if(!strcmp(inst, "help"))
-  {
-    rv = 2;
-  }
-  else if(!strcmp(inst, "mix"))
-  {
-    rv = 3;
-  }
-  else if(!strcmp(inst, "solve"))
-  {
-    rv = 4;
-  }
-  else if(!strcmp(inst, "solution"))
-  {
-    rv = 5;
-  }
-  else if(!strcmp(inst, "perspective"))
-  {
-    rv = 6;
-  }
-
-  free(inst);
-
-  return rv;
-}
-
 // rotates clockwise a face of the cube
 void rot(int cube[][3][3], int layer)
 {
