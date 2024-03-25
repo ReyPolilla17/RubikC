@@ -68,108 +68,19 @@ void moveCube(int cube[][3][3], char move[])
     Up, up, Dp, dp, Fp, fp, Bp, bp, Lp, lp, Rp, rp, mp, ep, sp, xp, yp, zp
   };
 
-  int op = 0;
+  char instructions[36][3] = { 
+    "U\0", "u\0", "D\0", "d\0", "F\0", "f\0", "B\0", "b\0", "L\0", "l\0", "R\0", "r\0", "m\0", "e\0", "s\0", "x\0", "y\0", "z\0", 
+    "U'\0", "u'\0", "D'\0", "d'\0", "F'\0", "f'\0", "B'\0", "b'\0", "L'\0", "l'\0", "R'\0", "r'\0", "m'\0", "e'\0", "s'\0", "x'\0", "y'\0", "z'\0"
+  };
 
-  switch(move[0])
+  int i = 0;
+
+  while(strcmp(move, instructions[i]) && i < 36)
   {
-    case 'U':
-    {
-      op = 0;
-      break;
-    }
-    case 'u':
-    {
-      op = 1;
-      break;
-    }
-    case 'D':
-    {
-      op = 2;
-      break;
-    }
-    case 'd':
-    {
-      op = 3;
-      break;
-    }
-    case 'F':
-    {
-      op = 4;
-      break;
-    }
-    case 'f':
-    {
-      op = 5;
-      break;
-    }
-    case 'B':
-    {
-      op = 6;
-      break;
-    }
-    case 'b':
-    {
-      op = 7;
-      break;
-    }
-    case 'L':
-    {
-      op = 8;
-      break;
-    }
-    case 'l':
-    {
-      op = 9;
-      break;
-    }
-    case 'R':
-    {
-      op = 10;
-      break;
-    }
-    case 'r':
-    {
-      op = 11;
-      break;
-    }
-    case 'm':
-    {
-      op = 12;
-      break;
-    }
-    case 'e':
-    {
-      op = 13;
-      break;
-    }
-    case 's':
-    {
-      op = 14;
-      break;
-    }
-    case 'x':
-    {
-      op = 15;
-      break;
-    }
-    case 'y':
-    {
-      op = 16;
-      break;
-    }
-    case 'z':
-    {
-      op = 17;
-      break;
-    }
+    i++;
   }
 
-  if(move[1] == '\'')
-  {
-    op += 18;
-  }
-
-  (*movement[op])(cube);
+  (*movement[i])(cube);
 }
 
 // generates 50 random numbers from 0 to 35 and takes every number as an action
