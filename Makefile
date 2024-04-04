@@ -1,10 +1,10 @@
 cube.out: cube.o rotation.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
 	gcc -o cube.out cube.o rotation.o logic.o movements.o prints.o r-blocks.o r-layers.o rp-blocks.o rp-layers.o
 
-cubo.o: cube.c
+cube.o: cube.c
 	gcc -c cube.c
 
-miscs.o: rotation.c
+rotation.o: rotation.c
 	gcc -c rotation.c
 
 logic.o: logic.c
@@ -28,7 +28,7 @@ rp-blocks.o: rp-blocks.c
 rp-layers.o: rp-layers.c
 	gcc -c rp-layers.c
 
-clear:
+clean:
 	rm *.o
 	rm *.out
 

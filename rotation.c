@@ -1,6 +1,11 @@
 #include "cube.h"
 
-// rotates clockwise a face of the cube
+/**
+ * rotates clockwise a face of the cube
+ * 
+ * @param cube[][3][3] the cube to modify
+ * @param layer the cube layer to rotate
+*/
 void rot(int cube[][3][3], int layer)
 {
   int i, j, k;
@@ -23,16 +28,6 @@ void rot(int cube[][3][3], int layer)
       cube[layer][i][j] = face[i][j];
     }
   }
-
-  return;
-}
-
-// rotates counter-clockwise a face of the cube
-void rot_p(int cube[][3][3], int layer)
-{
-  rot(cube, layer);
-  rot(cube, layer);
-  rot(cube, layer);
 
   return;
 }

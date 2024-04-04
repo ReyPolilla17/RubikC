@@ -1,6 +1,10 @@
 #include "cube.h"
 
-// prints the cube in a specific order
+/**
+ * Printfs the cube in a 2D perspective
+ * 
+ * @param cube[][3][3] the cube to print
+*/
 void printC(int cube[][3][3])
 {
   int i = 0;
@@ -44,7 +48,11 @@ void printC(int cube[][3][3])
   return;
 }
 
-// printing in 3d the cube, really complex because why not?
+/**
+ * prints in 3d the cube, really complex because why not?
+ * 
+ * @param cube[][3][3] the cube to print
+*/
 void print3D(int cube[][3][3])
 {
   // the amount of space before printing the upper face
@@ -148,17 +156,25 @@ void print3D(int cube[][3][3])
   return;
 }
 
+/**
+ * Prints the instructions used in the cube
+ * 
+ * @param *cube the cube struct
+*/
 void printM(Rubik_Cube *cube)
 {
   Instruction *temp;
 
+  // if the cube is solved, it frees the movement list
   if(solved(cube->matrix))
   {
     freeStruct((void**)&cube->inst_start);
   }
 
+  // if the list isn't empty
   if(cube->inst_start != NULL)
   {
+    // prints every instruction
     temp = cube->inst_start;
 
     while (temp != NULL)
@@ -169,6 +185,7 @@ void printM(Rubik_Cube *cube)
 
     printf("\n\n");
   }
+  // else, the cube is solved
   else
   {
     printf("Cube is solved!\n\n");
@@ -177,6 +194,9 @@ void printM(Rubik_Cube *cube)
   return;
 }
 
+/**
+ * Prints the functionality of every instruction in the cube
+*/
 void printHelp(void)
 {
   system("clear");

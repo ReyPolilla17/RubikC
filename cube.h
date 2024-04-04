@@ -74,7 +74,7 @@ void moveCube(int cube[][3][3], char move[]);
 void mix(Rubik_Cube *cube);
 int solved(int cube[][3][3]);
 
-// printing the cube
+// printing functions
 void printM(Rubik_Cube *cube);
 void printC(int cube[][3][3]);
 void print3D(int cube[][3][3]);
@@ -82,7 +82,6 @@ void printHelp(void);
 
 // rotating a face
 void rot(int cube[][3][3], int layer);
-void rot_p(int cube[][3][3], int layer);
 
 // up
 void U(int cube[][3][3]);
