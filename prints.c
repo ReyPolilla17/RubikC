@@ -146,7 +146,7 @@ void print3D(int cube[][3][3])
       if (i != 1)
       {
         printf("  ");
-        printf("\x1b[4%dm  \x1b[0m", cube[2][i + 1][2]);
+        printf("\x1b[4%dm  \x1b[0m", cube[2][i + 2][2]);
       }
     }
 
